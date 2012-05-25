@@ -126,7 +126,7 @@ $modifier = 'admin';
 $modifierlink = 'http://'.$_SERVER["SERVER_NAME"].'/';
 
 // Default page name
-$defaultpage  = 'FrontPage';     // Top / Default page
+$defaultpage  = 'Top';     // Top / Default page
 $whatsnew     = 'RecentChanges'; // Modified page list
 $whatsdeleted = 'RecentDeleted'; // Removeed page list
 $interwiki    = 'InterWikiName'; // Set InterWiki definition here
@@ -190,8 +190,7 @@ $notimeupdate = 1;
 // Admin password for this Wikisite
 
 // Default: always fail
-// $adminpass = '{x-php-md5}!'.md5('password');
-$adminpass = {x-php-md5}6604f43a3419a4a0eacd080f08ba5580;
+$adminpass = '{x-php-md5}!'.md5('password');
 
 // Sample:
 //$adminpass = 'pass'; // Cleartext
