@@ -1,19 +1,11 @@
 <?php
 // PukiWiki - Yet another WikiWikiWeb clone.
-// $Id: pukiwiki.skin.php,v 1.48 2006/03/07 14:03:02 henoheno Exp $
-// Copyright (C)
-//   2002-2006 PukiWiki Developers Team
-//   2001-2002 Originally written by yu-ji
-// License: GPL v2 or (at your option) any later version
+// $Id: pukiwiki.skin.php,v 1.41 2005/01/26 13:04:08 henoheno Exp $
 //
 // PukiWiki default skin
 
-// ------------------------------------------------------------
-// Settings (define before here, if you want)
-
-// Set site identities
+// Set site logo
 $_IMAGE['skin']['logo']     = 'pukiwiki.png';
-$_IMAGE['skin']['favicon']  = ''; // Sample: 'image/favicon.ico';
 
 // SKIN_DEFAULT_DISABLE_TOPICPATH
 //   1 = Show reload URL
@@ -31,9 +23,7 @@ if (! defined('PKWK_SKIN_SHOW_NAVBAR'))
 if (! defined('PKWK_SKIN_SHOW_TOOLBAR'))
 	define('PKWK_SKIN_SHOW_TOOLBAR', 1); // 1, 0
 
-// ------------------------------------------------------------
-// Code start
-
+// ----
 // Prohibit direct access
 if (! defined('UI_LANG')) die('UI_LANG is not set');
 if (! isset($_LANG)) die('$_LANG is not set');
@@ -50,16 +40,13 @@ switch(UI_LANG){
 	case 'ja': $css_charset = 'Shift_JIS'; break;
 }
 
-// ------------------------------------------------------------
-// Output
-
-// HTTP headers
+// Output HTTP headers
 pkwk_common_headers();
 header('Cache-control: no-cache');
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=' . CONTENT_CHARSET);
 
-// HTML DTD, <html>, and receive content-type
+// Output HTML DTD, <html>, and receive content-type
 if (isset($pkwk_dtd)) {
 	$meta_content_type = pkwk_output_dtd($pkwk_dtd);
 } else {
@@ -70,15 +57,13 @@ if (isset($pkwk_dtd)) {
 <head>
  <?php echo $meta_content_type ?>
  <meta http-equiv="content-style-type" content="text/css" />
-<?php if ($nofollow || ! $is_read)  { ?> <meta name="robots" content="NOINDEX,NOFOLLOW" /><?php } ?>
+<?php if (! $is_read)  { ?> <meta name="robots" content="NOINDEX,NOFOLLOW" /><?php } ?>
 <?php if (PKWK_ALLOW_JAVASCRIPT && isset($javascript)) { ?> <meta http-equiv="Content-Script-Type" content="text/javascript" /><?php } ?>
 
  <title><?php echo $title ?> - <?php echo $page_title ?></title>
-
- <link rel="SHORTCUT ICON" href="<?php echo $image['favicon'] ?>" />
- <link rel="stylesheet" type="text/css" media="screen" href="skin/pukiwiki.css.php?charset=<?php echo $css_charset ?>" charset="<?php echo $css_charset ?>" />
- <link rel="stylesheet" type="text/css" media="print"  href="skin/pukiwiki.css.php?charset=<?php echo $css_charset ?>&amp;media=print" charset="<?php echo $css_charset ?>" />
- <link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo $link['rss'] ?>" /><?php // RSS auto-discovery ?>
+ <link rel="stylesheet" href="skin/pukiwiki.css.php?charset=<?php echo $css_charset ?>" type="text/css" media="screen" charset="<?php echo $css_charset ?>" />
+ <link rel="stylesheet" href="skin/pukiwiki.css.php?charset=<?php echo $css_charset ?>&amp;media=print" type="text/css" media="print" charset="<?php echo $css_charset ?>" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo $link['rss'] ?>" /><?php // RSS auto-discovery ?>
 
 <?php if (PKWK_ALLOW_JAVASCRIPT && $trackback_javascript) { ?> <script type="text/javascript" src="skin/trackback.js"></script><?php } ?>
 
@@ -86,22 +71,29 @@ if (isset($pkwk_dtd)) {
 </head>
 <body>
 
+<div class="main">
+<div class="main_in">
+
+
+<!--↓ここからヘッダー-->
+
 <div id="header">
- <a href="<?php echo $link['top'] ?>"><img id="logo" src="<?php echo IMAGE_DIR . $image['logo'] ?>" width="80" height="80" alt="[PukiWiki]" title="[PukiWiki]" /></a>
 
  <h1 class="title"><?php echo $page ?></h1>
 
 <?php if ($is_page) { ?>
  <?php if(SKIN_DEFAULT_DISABLE_TOPICPATH) { ?>
-   <a href="<?php echo $link['reload'] ?>"><span class="small"><?php echo $link['reload'] ?></span></a>
+   <a href="<?php echo $link['reload'] ?>"><span id="urltext"><?php echo $link['reload'] ?></span></a>
  <?php } else { ?>
-   <span class="small">
+   <span id="urltext">
    <?php require_once(PLUGIN_DIR . 'topicpath.inc.php'); echo plugin_topicpath_inline(); ?>
    </span>
  <?php } ?>
 <?php } ?>
 
 </div>
+
+<!--↓ナビメニュー。（「新規」とか「編集」とか）-->
 
 <div id="navigator">
 <?php if(PKWK_SKIN_SHOW_NAVBAR) { ?>
@@ -156,7 +148,7 @@ function _navigator($key, $value = '', $javascript = ''){
 
 <?php if ($trackback) { ?> &nbsp;
  [ <?php _navigator('trackback', $lang['trackback'] . '(' . tb_count($_page) . ')',
- 	($trackback_javascript == 1) ? 'onclick="OpenTrackback(this.href); return false"' : '') ?> ]
+ 	($trackback_javascript == 1) ? 'onClick="OpenTrackback(this.href); return false"' : '') ?> ]
 <?php } ?>
 <?php if ($referer)   { ?> &nbsp;
  [ <?php _navigator('refer') ?> ]
@@ -164,26 +156,31 @@ function _navigator($key, $value = '', $javascript = ''){
 <?php } // PKWK_SKIN_SHOW_NAVBAR ?>
 </div>
 
-<?php echo $hr ?>
+<div id="pukiwiki">&nbsp;</div>
+
+<!--↓サイドメニューの部分。位置はCSSで絶対指定。-->
 
 <?php if (arg_check('read') && exist_plugin_convert('menu')) { ?>
-<table border="0" style="width:100%">
- <tr>
-  <td class="menubar">
-   <div id="menubar"><?php echo do_plugin_convert('menu') ?></div>
-  </td>
-  <td valign="top">
-   <div id="body"><?php echo $body ?></div>
-  </td>
- </tr>
-</table>
-<?php } else { ?>
-<div id="body"><?php echo $body ?></div>
-<?php } ?>
+<div id="menubar"><?php echo do_plugin_convert('menu') ?></div>
 
-<?php if ($notes != '') { ?>
-<div id="note"><?php echo $notes ?></div>
+<!--ここから記事部分（変数　＄body　が記事の中身になる。）-->
+
+    
+   <div class="body"><?php echo $body ?>		
+	</div>
+   
+   <?php } else { ?>
+<div class="body"><?php echo $body ?>
+
+	</div>
 <?php } ?>
+		
+			
+	<?php if ($notes != '') { ?>
+	<div id="note"><?php echo $notes ?></div>
+	<?php } ?>
+	
+		
 
 <?php if ($attaches != '') { ?>
 <div id="attach">
@@ -195,7 +192,9 @@ function _navigator($key, $value = '', $javascript = ''){
 <?php echo $hr ?>
 
 <?php if (PKWK_SKIN_SHOW_TOOLBAR) { ?>
-<!-- Toolbar -->
+
+
+<!-- ここから「Toolbar」 -->
 <div id="toolbar">
 <?php
 
@@ -270,18 +269,27 @@ function _toolbar($key, $x = 20, $y = 20){
 </div>
 <?php } // PKWK_SKIN_SHOW_TOOLBAR ?>
 
+<!-- ここから「最終更新日時の表示」 -->
+
 <?php if ($lastmodified != '') { ?>
 <div id="lastmodified">Last-modified: <?php echo $lastmodified ?></div>
 <?php } ?>
+
+<!-- ここから「関連先リンクの表示」 -->
 
 <?php if ($related != '') { ?>
 <div id="related">Link: <?php echo $related ?></div>
 <?php } ?>
 
+<!--ここからフッター-->
+
 <div id="footer">
  Site admin: <a href="<?php echo $modifierlink ?>"><?php echo $modifier ?></a><p />
  <?php echo S_COPYRIGHT ?>.
  Powered by PHP <?php echo PHP_VERSION ?>. HTML convert time: <?php echo $taketime ?> sec.
+</div>
+
+</div>
 </div>
 
 </body>
