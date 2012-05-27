@@ -302,6 +302,7 @@ div.jumpmenu
 {
 	font-size:60%;
 	text-align:right;
+	display:none;
 }
 
 hr.full_hr
