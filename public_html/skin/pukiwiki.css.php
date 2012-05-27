@@ -300,8 +300,6 @@ a.note_super
 
 div.jumpmenu
 {
-	font-size:60%;
-	text-align:right;
 	display:none;
 }
 
