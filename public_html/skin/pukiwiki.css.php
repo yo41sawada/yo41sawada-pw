@@ -300,7 +300,8 @@ a.note_super
 
 div.jumpmenu
 {
-	display:none;
+	font-size:60%;
+	text-align:right;
 }
 
 hr.full_hr
