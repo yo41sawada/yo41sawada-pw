@@ -126,7 +126,7 @@ $modifier = 'admin';
 $modifierlink = 'http://'.$_SERVER["SERVER_NAME"].'/';
 
 // Default page name
-$defaultpage  = 'Top';     // Top / Default page
+$defaultpage  = 'FrontPage';     // Top / Default page
 $whatsnew     = 'RecentChanges'; // Modified page list
 $whatsdeleted = 'RecentDeleted'; // Removeed page list
 $interwiki    = 'InterWikiName'; // Set InterWiki definition here
