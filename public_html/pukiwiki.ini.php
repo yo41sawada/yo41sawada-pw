@@ -120,10 +120,13 @@ $page_title = 'PukiWiki for yo41sawada';
 //$script_directory_index = 'index.php';
 
 // Site admin's name (CHANGE THIS)
-$modifier = 'admin';
+// $modifier = 'admin';
+$modifier = 'yo41sawada';
 
 // Site admin's Web page (CHANGE THIS)
-$modifierlink = 'http://'.$_SERVER["SERVER_NAME"].'/';
+// $modifierlink = 'http://'.$_SERVER["SERVER_NAME"].'/';
+$modifierlink = 'http://yo41sawada-pw.fluxflex.com/';
+
 
 // Default page name
 $defaultpage  = 'FrontPage';     // Top / Default page
