@@ -8,7 +8,7 @@
 // User defines
 
 // Allow using resture function
-define('PLUGIN_DUMP_ALLOW_RESTORE', FALSE); // FALSE, TRUE
+define('PLUGIN_DUMP_ALLOW_RESTORE', TRUE); // FALSE, TRUE
 
 // ページ名をディレクトリ構造に変換する際の文字コード (for mbstring)
 define('PLUGIN_DUMP_FILENAME_ENCORDING', 'SJIS');
@@ -225,9 +225,9 @@ function plugin_dump_disp_form()
 <p><strong>アーカイブの形式</strong>
 <br />
   <input type="radio" name="pcmd" id="_p_dump_tgz" value="tgz" checked="checked" />
-  <label for="_p_dump_tgz"> 〜.tar.gz 形式</label><br />
+  <label for="_p_dump_tgz"> ?.tar.gz 形式</label><br />
   <input type="radio" name="pcmd" id="_p_dump_tar" value="tar" />
-  <label for="_p_dump_tar">〜.tar 形式</label>
+  <label for="_p_dump_tar">?.tar 形式</label>
 </p>
 <p><strong>バックアップディレクトリ</strong>
 <br />
