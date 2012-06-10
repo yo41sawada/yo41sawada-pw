@@ -808,7 +808,7 @@ td.vote_td2
 .body{
 	background color:#ffffff;
 	color:#444444;
-	padding:35px;
+	padding:5px 35px 35px;
 	margin:0px;
 	font-size:80%;
 	line-height:130%;
